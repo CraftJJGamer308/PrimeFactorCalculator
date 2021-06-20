@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <math.h>
 
-int prime(int x)
+int prime(unsigned long long x)
 {
     int count = 0;
     if (x == 2)
         return 1;
 
-    for (int i = 1; i <= (int)sqrt(x); i++)
+    for (unsigned long long i = 1; i <= (unsigned long long)sqrt(x); i++)
     {
         if (x % i == 0)
             count++;
