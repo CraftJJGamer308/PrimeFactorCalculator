@@ -35,8 +35,6 @@ int main()
 
     while (1)
     {
-        if (x == 1)
-            break;
         if (i >= lim)
         {
             printf("%llu^1 * ", x);
