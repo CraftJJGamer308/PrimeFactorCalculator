@@ -52,8 +52,8 @@ int main()
                 }
                 printf("%llu^%u * ", i, exp);
                 exp = 0;
-                lim = floor(sqrt(x));
             }
+            lim = floor(sqrt(x));
         }
         if (i == 2)
             i++;
