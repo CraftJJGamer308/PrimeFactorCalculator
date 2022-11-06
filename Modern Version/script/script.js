@@ -1,4 +1,4 @@
-const rt = document.getElementById("r");
+const rt = document.getElementById("rt");
 const r = document.getElementById("result");
 const spinner = document.getElementById("spinner");
 
