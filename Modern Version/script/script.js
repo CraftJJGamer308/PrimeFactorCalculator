@@ -1,10 +1,12 @@
 const rt = document.getElementById("rt");
 const r = document.getElementById("result");
-const spinner = document.getElementById("spinner");
+const pbar = document.getElementById("pbar");
 
 document.body.onload = () => {
     rt.innerHTML = "";
     r.innerHTML = "Ready";
+    pbar.innerHTML = "";
+    pbar.style = "width: 69%;";
 }
 
 function addline(n, exp) {
@@ -23,7 +25,8 @@ function addNum(n, exp) {
 function start() {
     const n = document.getElementById("num").value;
     rt.innerHTML = "";
-
+    pbar.innerHTML = "";
+    pbar.style = "width: 0%;";
 
     if (isNaN(n) || n < 2) {
         r.innerHTML = 'indivisible';
@@ -32,20 +35,25 @@ function start() {
     r.innerHTML = n + ' = ... ';
 
     if (window.Worker) {
-        spinner.style.visibility = "visible";
         const divisorFinder = new Worker('./script/worker.js');
         divisorFinder.postMessage(BigInt(n));
 
         divisorFinder.onmessage = (e) => {
             if (e.data === 0) {
                 divisorFinder.terminate();
-                r.innerHTML = r.innerHTML.slice(0, -7) + ' done';
-                spinner.style.visibility = "hidden";
+                r.innerHTML = r.innerHTML.slice(0, -7);
+                pbar.innerHTML = "done";
+                pbar.style = "width: 100%;";
                 return;
             }
-
-            addline(e.data[0], e.data[1]);
-            addNum(e.data[0], e.data[1]);
+            else if (e.data[2]) {
+                addline(e.data[0], e.data[1]);
+                addNum(e.data[0], e.data[1]);
+            }
+            else {
+                pbar.innerHTML = "Trying " + e.data[0] + " of " + e.data[1];
+                pbar.style = "width: " + String(e.data[0] * 100n / e.data[1]) + "%;";
+            }
         }
     }
 }

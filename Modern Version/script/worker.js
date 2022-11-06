@@ -32,7 +32,8 @@ onmessage = (e) => {
     var x = e.data;
     var i = 2n,
         exp = 0,
-        lim = BigInt(sqrt(x));
+        lim = BigInt(sqrt(x)),
+        threshold=2n;
 
     while (1) {
         if (x == 1) {
@@ -40,7 +41,7 @@ onmessage = (e) => {
             break;
         }
         if (i > lim) {
-            postMessage([x, 1]);
+            postMessage([x, 1, true]);
             postMessage(0);
             break;
         }
@@ -51,10 +52,14 @@ onmessage = (e) => {
                     x /= BigInt(i);
                     exp += 1;
                 }
-                postMessage([i, exp]);
+                postMessage([i, exp, true]);
                 exp = 0;
                 lim = sqrt(x);
             }
+        }
+        if (threshold<i) {
+            threshold=i+10000n;
+            postMessage([i, lim, false]);
         }
         i += (i === 2n) ? 1n : 2n;
     }
